@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Personas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"] { width: 100%; padding: 8px; }
+        button { padding: 10px 15px; margin-top: 10px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Agregar y Buscar Personas</h1>
+
+        <div class="form-group">
+            <label for="search">Buscar:</label>
+            <input type="text" id="search" placeholder="Buscar por apellido" onkeyup="searchTable()">
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Apellido:</label>
+            <input type="text" id="lastName" name="lastName" required>
+        </div>
+
+        <button onclick="addPerson()">Agregar</button>
+        <button onclick="searchTable()">Buscar</button>
+
+        <table id="personTable">
+            <thead>
+                <tr>
+                    <th>Apellido</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const lastNameInput = document.getElementById('lastName');
+        const personTable = document.getElementById('personTable').getElementsByTagName('tbody')[0];
+        const searchInput = document.getElementById('search');
+
+        function addPerson() {
+            const lastName = lastNameInput.value.trim();
+            if (lastName) {
+                const row = personTable.insertRow();
+                const cell = row.insertCell(0);
+                cell.textContent = lastName;
+                lastNameInput.value = '';
+            }
+        }
+
+        function searchTable() {
+            const filter = searchInput.value.toLowerCase();
+            const rows = personTable.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cell = rows[i].getElementsByTagName('td')[0];
+                if (cell) {
+                    const textValue = cell.textContent || cell.innerText;
+                    rows[i].style.display = textValue.toLowerCase().includes(filter) ? '' : 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
